@@ -100,6 +100,7 @@ CSV columns:
 - `item_description`
 - `quantity`
 - `unit_price`
+- `discount`
 - `line_total`
 - `receipt_total`
 - `payment_method`

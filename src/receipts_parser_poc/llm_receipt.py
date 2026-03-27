@@ -39,12 +39,13 @@ CSV_FIELDNAMES = [
     "item_description",
     "quantity",
     "unit_price",
+    "discount",
     "line_total",
     "receipt_total",
     "payment_method",
 ]
 
-RECEIPT_JSON_SYSTEM = """You extract structured data from retail receipt OCR text.
+RECEIPT_JSON_SYSTEM = """You extract structured data from retail receipt OCR text. You are NOT a calculator.
 Respond with ONE JSON object only (no markdown), using this shape:
 {
   "date": string or null,
@@ -54,13 +55,16 @@ Respond with ONE JSON object only (no markdown), using this shape:
       "description": string,
       "quantity": number or null,
       "unit_price": number or null,
+      "discount": number or null,
       "line_total": number or null
     }
   ],
   "total": number or null,
   "payment_method": string or null
 }
-Use null when unknown. Numbers must be JSON numbers (no thousands separators)."""
+Use null when unknown. Numbers must be JSON numbers (no thousands separators).
+For "discount": extract the discount amount per line item when explicitly shown (e.g. "Dto.", "Desc.") as a positive number. Use null if no discount is shown for that item.
+IMPORTANT: Extract all values exactly as they appear in the text. Do NOT calculate or infer any field — if a value is not explicitly printed on the receipt, use null."""
 
 
 class OllamaError(RuntimeError):
@@ -85,7 +89,7 @@ def ollama_chat_json(
     system: str,
     user: str,
     *,
-    timeout_s: float = 120.0,
+    timeout_s: float = 300.0,
 ) -> dict[str, Any]:
     """Call Ollama ``/api/chat`` with ``format: json`` and return the parsed JSON object."""
     base = host.rstrip("/")
@@ -104,6 +108,11 @@ def ollama_chat_json(
         ],
         "stream": False,
         "format": "json",
+        "options": {
+            "temperature": 0,
+            "num_predict": 1024,
+            "num_ctx": 2048,
+        },
     }
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
@@ -189,6 +198,7 @@ def write_receipt_csv(
                     "item_description": it.get("description", "") or "",
                     "quantity": it.get("quantity", ""),
                     "unit_price": it.get("unit_price", ""),
+                    "discount": it.get("discount", ""),
                     "line_total": it.get("line_total", ""),
                     "receipt_total": total if total is not None else "",
                     "payment_method": payment if payment is not None else "",
@@ -203,6 +213,7 @@ def write_receipt_csv(
                 "item_description": "",
                 "quantity": "",
                 "unit_price": "",
+                "discount": "",
                 "line_total": "",
                 "receipt_total": total if total is not None else "",
                 "payment_method": payment if payment is not None else "",
