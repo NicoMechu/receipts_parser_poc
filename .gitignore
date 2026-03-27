@@ -8,6 +8,7 @@ __pycache__/
 .pytest_cache/
 
 # Local outputs and artifacts
+input/
 output/
 json_output/
 text_output/
