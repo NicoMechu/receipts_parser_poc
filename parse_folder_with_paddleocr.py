@@ -57,10 +57,10 @@ logger = logging.getLogger(__name__)
     help="Logging level.",
 )
 @click.option(
-    "--ollama",
-    is_flag=True,
-    default=False,
-    help="After OCR, call a local Ollama model to structure the ticket and write CSV to csv_output/.",
+    "--ollama/--no-ollama",
+    default=True,
+    show_default=True,
+    help="Enable/disable the Ollama step (CSV export to csv_output/).",
 )
 @click.option(
     "--ollama-host",

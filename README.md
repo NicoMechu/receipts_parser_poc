@@ -47,7 +47,7 @@ Main options:
 - `--lang` (optional): PaddleOCR language code (default: `es`)
 - `--use-angle-cls` (optional): enable rotated-text angle classifier
 - `--log-level` (optional): `DEBUG`, `INFO`, `WARNING`, `ERROR` (default: `INFO`)
-- `--ollama` (optional): enable the LLM step (Ollama) and write one CSV per image into `csv_output/`
+- `--ollama/--no-ollama` (optional): enable/disable the LLM step (default: enabled). When enabled, it writes one CSV per image into `csv_output/`
 - `--ollama-host` (optional): Ollama base URL (default: `http://127.0.0.1:11434`)
 - `--ollama-model` (optional): Ollama model name (default: `qwen2.5:latest` — adjust to your installed models)
 
