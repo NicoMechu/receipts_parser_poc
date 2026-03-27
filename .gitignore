@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Poetry / virtualenvs / caches
+.venv/
+.python-version
+.pytest_cache/
+
+# Local outputs and artifacts
+output/
+json_output/
+text_output/
+
+# OCR / model caches (keep local)
+.paddlex/
+

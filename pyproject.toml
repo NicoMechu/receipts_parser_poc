@@ -1,0 +1,22 @@
+[project]
+name = "receipts-parser-poc"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "NicolasMechulam",email = "nicomebu@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "click (>=8.3.1,<9.0.0)",
+    "paddlepaddle (>=3.3.0,<3.3.1)",
+    "paddleocr (>=3.4.0,<4.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
