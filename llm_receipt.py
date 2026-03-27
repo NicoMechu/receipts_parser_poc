@@ -70,7 +70,9 @@ def _extract_json_object(text: str) -> dict[str, Any]:
     stripped = text.strip()
     m = _JSON_FENCE_RE.match(stripped)
     if m:
-        logger.debug("Model output was wrapped in a markdown code fence; using inner JSON only")
+        logger.debug(
+            "Model output was wrapped in a Markdown code fence; using inner JSON only"
+        )
         stripped = m.group(1).strip()
     return json.loads(stripped)
 
@@ -137,7 +139,7 @@ def parse_ticket_text_with_ollama(
     ticket_text: str,
     *,
     host: str = "http://127.0.0.1:11434",
-    model: str = "llama3.2",
+    model: str = "qwen2.5:latest",
 ) -> dict[str, Any]:
     """Send OCR plain text to Ollama and return a structured receipt dict."""
     logger.info(

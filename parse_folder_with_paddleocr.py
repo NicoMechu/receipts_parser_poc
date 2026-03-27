@@ -28,8 +28,9 @@ logger = logging.getLogger(__name__)
 @click.option(
     "--input",
     "input_path",
-    required=True,
     type=click.Path(path_type=Path),
+    default="input",
+    show_default=True,
     help="Path to folder containing images.",
 )
 @click.option(
@@ -69,7 +70,7 @@ logger = logging.getLogger(__name__)
 )
 @click.option(
     "--ollama-model",
-    default="llama3.2",
+    default="qwen2.5:latest",
     show_default=True,
     help="Model name served by Ollama.",
 )
@@ -114,7 +115,7 @@ def run_parsing(
     *,
     use_ollama: bool = False,
     ollama_host: str = "http://127.0.0.1:11434",
-    ollama_model: str = "llama3.2",
+    ollama_model: str = "qwen2.5:latest",
 ) -> None:
     """Run OCR on each image and write:
 
