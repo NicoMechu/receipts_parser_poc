@@ -9,9 +9,11 @@ Proof of concept to OCR receipts from images using `PaddleOCR`, persist the extr
 
 ## Project structure
 
-- `parse_folder_with_paddleocr.py`: main CLI (orchestrates OCR, output writing, optional Ollama step)
-- `ocr_parsing.py`: OCR logic (PaddleOCR setup, per-image parsing, text concatenation)
-- `llm_receipt.py`: Ollama integration (JSON request/response) + CSV export
+- `parse_folder_with_paddleocr.py`: CLI wrapper (calls code in `src/`)
+- `src/receipts_parser_poc/cli.py`: main CLI (orchestrates OCR, output writing, optional Ollama step)
+- `src/receipts_parser_poc/ocr_parsing.py`: OCR logic (PaddleOCR setup, per-image parsing, text concatenation)
+- `src/receipts_parser_poc/llm_receipt.py`: Ollama integration (JSON request/response) + CSV export
+- `src/receipts_parser_poc/timing.py`: timing decorator used to log runtime per function
 - `input/`: input folder (images to process) — **git-ignored**
 - `output/`: base output folder — **git-ignored**
 

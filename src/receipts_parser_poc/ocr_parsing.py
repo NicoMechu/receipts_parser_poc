@@ -9,6 +9,8 @@ from typing import Any
 import click
 from paddleocr import PaddleOCR
 
+from .timing import timed
+
 # Image extensions PaddleOCR can read directly as file paths.
 SUPPORTED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff", ".webp"}
 logger = logging.getLogger(__name__)
@@ -61,6 +63,7 @@ def concatenate_parsed_text(parsed: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+@timed(logger=logger, name="parse_image")
 def parse_image(ocr: PaddleOCR, image_path: Path) -> list[dict[str, Any]]:
     """Run OCR on one image and return a flat list of dicts with text, confidence, and box.
 
@@ -97,3 +100,4 @@ def parse_image(ocr: PaddleOCR, image_path: Path) -> list[dict[str, Any]]:
         )
     logger.debug("OCR extracted %d line(s) from %s", len(result), image_path.name)
     return result
+

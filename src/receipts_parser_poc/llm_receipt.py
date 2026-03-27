@@ -11,6 +11,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from .timing import timed
+
 logger = logging.getLogger(__name__)
 
 # Strip optional Markdown code fences around JSON. Models sometimes reply with
@@ -135,6 +137,7 @@ def ollama_chat_json(
     return parsed
 
 
+@timed(logger=logger, name="parse_ticket_text_with_ollama")
 def parse_ticket_text_with_ollama(
     ticket_text: str,
     *,
@@ -157,6 +160,7 @@ def parse_ticket_text_with_ollama(
     return ollama_chat_json(host, model, RECEIPT_JSON_SYSTEM, user)
 
 
+@timed(logger=logger, name="write_receipt_csv")
 def write_receipt_csv(
     csv_path: Path, source_file: str, structured: dict[str, Any]
 ) -> None:
@@ -218,3 +222,4 @@ def write_receipt_csv(
         len(rows),
         source_file,
     )
+
